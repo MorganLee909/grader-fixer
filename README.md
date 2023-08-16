@@ -1,7 +1,7 @@
 # Grader Fixer
 
 ## SUMMARY
-Just a simple script to make the grader easier to use. There are some updates that have not been implemented yet, so I just decided to do it myself.
+Just a simple script to make the grader easier to use. There are some much needed updates for the site that have not been implemented yet, so I just decided to do it myself.
 
 ## FEATURES
 1. When the assignment has been graded previously, the grade is displayed in "Comments", next to the timestamp for the specific grader comment.
@@ -21,3 +21,7 @@ After installing the extension, open it and create a new script. Then just delet
 
 ## NOTE
 This is still a work in progress, so there may be some issues depending on your environment. Also, more to come soon.
+
+
+
+![Update comment view](https://assets.digitalocean.com/articles/alligator/boo.svg "Comments/Grades Update View")
