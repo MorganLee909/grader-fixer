@@ -71,9 +71,9 @@
             .then(r=>r.json())
             .then((response)=>{
                 let interval = setInterval(()=>{
-                    let uiComments = document.querySelectorAll(".ui.comments .comment");
-                    if(uiComments.length > 0){
+                    if(document.querySelectorAll(".ui.header").length > 0){
                         clearInterval(interval);
+                        let uiComments = document.querySelectorAll(".ui.comments .comment");
                         let commentIndex = 0;
                         let gradeIndex = 0;
 
