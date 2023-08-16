@@ -18,6 +18,14 @@
                 color: green;
                 font-weight: bold;
             }
+
+            .rubricFrame{
+                width: 100%;
+            }
+
+            .rubricFrame span{
+                font-size: 12px;
+            }
         `;
 
         let styleElem = document.createElement("style");
@@ -87,6 +95,28 @@
                 console.error(err);
             });
     }
+
+    const addRubric = ()=>{
+        let main = document.querySelector(".divided.equal.width.row");
+        let module = main.querySelector("h2");
+        let rubricElem = main.children[1].children[0].children[3];
+        let container = document.querySelector(".ui.segment.active.tab");
+
+        module = Number(module.textContent.split(" ")[1]);
+
+        let frame = document.createElement("iframe");
+        frame.classList.add("rubricFrame");
+        frame.src = `https://leemorgan.io/2u/rubrics/${module}`;
+        frame.style.height = `${container.clientHeight}px`;
+        rubricElem.appendChild(frame);
+    }
+
+    let loadedInterval = setInterval(()=>{
+        if(document.querySelectorAll(".ui.header").length > 0){
+            clearInterval(loadedInterval);
+            addRubric();
+        }
+    }, 100);
 
     getData();
     applyStyle();

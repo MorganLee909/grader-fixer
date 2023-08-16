@@ -23,4 +23,5 @@ After installing the extension, open it and create a new script. Then just delet
 This is still a work in progress, so there may be some issues depending on your environment. Also, more to come soon.
 
 
+## Examples
 ![Update comment view](./commentExample.png "Comments/Grades Update View")
