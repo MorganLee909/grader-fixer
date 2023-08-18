@@ -4,13 +4,14 @@
 // @version      0.1
 // @description  Fixing things in BCS Grader that should have been fixed long ago
 // @author       Lee Morgan
-// @match        https://grading.bootcampspot.com/canvasSubmission/*
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @match        https://grading.bootcampspot.com/*
+// @icon         https://grading.bootcampspot.com/favicon.png
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
+    let currentPage = window.location.href;
 
     const applyStyle = ()=>{
         const style = `
@@ -51,7 +52,7 @@
         metadataElem.appendChild(p);
     }
 
-    const getData = ()=>{
+    const getAssignmentData = ()=>{
         let submissionId = window.location.pathname.split("/");
         submissionId = Number(submissionId[submissionId.length-1]);
 
@@ -111,13 +112,32 @@
         rubricElem.appendChild(frame);
     }
 
-    let loadedInterval = setInterval(()=>{
-        if(document.querySelectorAll(".ui.header").length > 0){
-            clearInterval(loadedInterval);
-            addRubric();
-        }
-    }, 100);
+    const submissionPage = ()=>{
+        getAssignmentData();
 
-    getData();
+        let loadedInterval = setInterval(()=>{
+            console.log("thing");
+            if(!currentPage.includes("canvasSubmission")) clearInterval(loadedInterval);
+            if(document.querySelectorAll(".ui.header").length > 0){
+                clearInterval(loadedInterval);
+                addRubric();
+            }
+        }, 100);
+    }
+
+    // HANDLE PAGE CHANGES
+    const handlePage = ()=>{
+        if(currentPage.includes("canvasSubmission")) submissionPage();
+    }
+
+    setInterval(()=>{
+        let newUrl = window.location.href;
+        if(newUrl !== currentPage){
+            currentPage = newUrl;
+            handlePage();
+        }
+    }, 250);
+
+    handlePage();
     applyStyle();
 })();
