@@ -22,7 +22,6 @@ After installing the extension, open it and create a new script. Then just delet
 
 ## NOTES
 1. This is still a work in progress, so there may be some issues depending on your environment. Also, more to come soon.
-2. If you do not see the changes when you go to a new assignment, refresh the page and they should show up. Working on a fix for this.
 
 
 ## Examples
