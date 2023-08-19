@@ -12,6 +12,9 @@
 (function() {
     'use strict';
     let currentPage = window.location.href;
+    let ungraded = [];
+    let waitingReview = [];
+    let pastDue = [];
 
     //CREATE CLONABLE ASSIGNMENTCARD
     let clonableAssCard = document.createElement("div");
@@ -139,44 +142,23 @@
         return newCard;
     }
 
-    const displayAssignments = (assignments)=>{
-        console.log(assignments);
-        let assCardContainer = document.querySelector(".ui.items");
-        let assCard = document.querySelector(".item.queue-item.canvas");
+    const displayAssignments = (assignments, container)=>{
+        let assCardContainer = container.querySelector(".ui.items");
 
-        while(assCardContainer.children.length > 1){
+        while(assCardContainer.children.length > 0){
             assCardContainer.removeChild(assCardContainer.lastChild);
         }
         for(let i = 0; i < assignments.length; i++){
             let newCard = createAssCard(assignments[i]);
             assCardContainer.appendChild(newCard);
         }
+
+        try{
+            document.querySelector(".ui.pagination.menu").style.display = "none";
+        }catch(e){}
     }
 
-    const replaceSecondaryMenu = (assignments)=>{
-        let menu = document.querySelector(".ui.secondary.menu");
-        for(let i = 0; i < menu.children.length; i++){
-            let newItem = menu.children[i].cloneNode(true);
-            menu.replaceChild(newItem, menu.children[i]);
-
-            let data = [];
-            switch(i){
-                case 0: data = assignments.ungraded; break;
-                case 1: data = assignments.pastDue; break;
-                case 2: data = assignments.waitingReview; break;
-            }
-
-            newItem.addEventListener("click", ()=>{
-                for(let i = 0; i < menu.children.length; i++){
-                    menu.children[i].classList.remove("active");
-                }
-                newItem.classList.add("active");
-                displayAssignments(data);
-            });
-        }
-    }
-
-    const getClaimed = ()=>{
+    const getClaimed = (container)=>{
         fetch("https://grading.bootcampspot.com/api/centralgrading/v1/myClaimedSubmissions", {
             method: "post",
             headers: {
@@ -193,10 +175,9 @@
         })
             .then(r=>r.json())
             .then((response)=>{
-                console.log(response);
-                let ungraded = [];
-                let waitingReview = [];
-                let pastDue = [];
+                ungraded = [];
+                waitingReview = [];
+                pastDue = [];
                 for(let i = 0; i < response.data.length; i++){
                     let status = response.data[i].status;
                     if(status === "In Progress"){
@@ -208,21 +189,7 @@
                     }
                 }
 
-                let assignments = {ungraded, waitingReview, pastDue};
-            console.log(assignments);
-                replaceSecondaryMenu(assignments);
-
-                if(ungraded.length > 0){
-                    let waiter = setInterval(()=>{
-                        let assCardContainer = document.querySelector(".ui.items");
-                        if(assCardContainer.children.length > 1){
-                            clearInterval(waiter);
-
-                            document.querySelector(".ui.pagination.menu").style.display = "none";
-                            displayAssignments(ungraded);
-                        }
-                    }, 100);
-                }
+                displayAssignments(ungraded, container);
             })
             .catch((err)=>{
                 console.error(err);
@@ -242,7 +209,48 @@
     }
 
     const claimedPage = ()=>{
-        getClaimed();
+        let container = null;
+        let uiGrid = null;
+        let newContainer = document.createElement("div");
+        let wait = setInterval(()=>{
+            try{
+                uiGrid = document.querySelector(".ui.grid");
+                container = uiGrid.children[1];
+            }catch(e){}
+
+            if(container !== null){
+                clearInterval(wait);
+                container.style.display = "none";
+
+                //Create and modify new container
+                newContainer = container.cloneNode(true);
+                let menu = newContainer.querySelector(".ui.secondary.menu");
+
+                for(let i = 0; i < menu.children.length; i++){
+                    menu.children[i].addEventListener("click", ()=>{
+                        for(let j = 0; j < menu.children.length; j++){
+                            menu.children[j].classList.remove("active");
+                        }
+
+                        let data = [];
+                        switch(i){
+                            case 0: data = ungraded; break;
+                            case 1: data = pastDue; break;
+                            case 2: data = waitingReview; break;
+                        }
+
+                        menu.children[i].classList.add("active");
+                        displayAssignments(data, newContainer);
+                    });
+                }
+
+                newContainer.style.display = "block";
+                uiGrid.appendChild(newContainer);
+                getClaimed(newContainer);
+            }
+        }, 100);
+
+
     }
 
     // HANDLE PAGE CHANGES
@@ -254,8 +262,6 @@
     setInterval(()=>{
         let newUrl = window.location.href;
         if(newUrl !== currentPage){
-            console.log(currentPage);
-            console.log(newUrl);
             currentPage = newUrl;
             handlePage();
         }
