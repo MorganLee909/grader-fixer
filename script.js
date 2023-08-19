@@ -27,13 +27,22 @@
                 color: green;
                 font-weight: bold;
             }
-
             .rubricFrame{
                 width: 100%;
             }
-
             .rubricFrame span{
                 font-size: 12px;
+            }
+            #downloadGraded{
+                height: 50%;
+                background: green;
+                border: none;
+                z-index: 999;
+                cursor: pointer;
+                color: white;
+                padding: 5px;
+                margin: auto 0;
+                box-shadow: 0 0 5px black;
             }
         `;
 
@@ -120,6 +129,52 @@
         rubricElem.appendChild(frame);
     }
 
+    const addSaveAssignment = ()=>{
+        let button = document.querySelector(".ui.green.icon.positive.right.labeled.button");
+        button.addEventListener("click", ()=>{
+            let info = document.querySelector(".divided.equal.width.row").children[1].children[0].children[1];
+
+            let url = window.location.href.split("/");
+            url = url[url.length-1];
+
+            let module = info.children[0].innerText;
+            module = module.split(" ");
+            module = module[1];
+
+            let grade = document.querySelector(".gradeInputBoxForCanvas").children[0].value;
+
+            let time = new Date();
+
+            let graded = "";
+            try{
+                graded = localStorage.getItem("graded");
+            }catch(e){}
+            graded += `${url},${module},${grade},${time}\n`;
+
+            localStorage.setItem("graded", graded);
+        });
+    }
+
+    const downloadGraded = ()=>{
+        let button = document.createElement("button");
+        button.textContent = "Download Graded";
+        button.id = "downloadGraded";
+        let header = document.querySelector(".ui.top.fixed.menu").children[0];
+        header.insertBefore(button, header.children[1]);
+
+        button.addEventListener("click", ()=>{
+            let header = "urlId,module,grade,timestamp\n";
+
+            let file = new Blob([header, localStorage.getItem("graded")]);
+            let a = document.createElement("a");
+            let url = URL.createObjectURL(file);
+            a.href = url;
+            a.download = "gradedAssignments.csv";
+            document.body.appendChild(a);
+            a.click();
+        });
+    }
+
     const createAssCard = (data)=>{
         let newCard = clonableAssCard.cloneNode(true);
 
@@ -204,6 +259,7 @@
             if(document.querySelectorAll(".ui.header").length > 0){
                 clearInterval(loadedInterval);
                 addRubric();
+                addSaveAssignment();
             }
         }, 100);
     }
@@ -269,4 +325,12 @@
 
     handlePage();
     applyStyle();
+
+    let wait = setInterval(()=>{
+        try{
+            document.querySelector(".ui.top.fixed.menu");
+            clearInterval(wait);
+            downloadGraded();
+        }catch(e){}
+    }, 100);
 })();
