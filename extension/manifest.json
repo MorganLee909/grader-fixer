@@ -4,15 +4,12 @@
     "description": "A tool for improving the experience of using the BCS Grader",
     "version": "1.0",
     "icons": {
-        "48": "favicon.png"
-    },
-    "background": {
-        "service_worker": "background.js"
-    },
-    "action": {
-        "default_icon": {
-            "48": "favicon.svg"
-        }
+        "32": "icons/icon32.png",
+        "48": "icons/icon48.png",
+        "72": "icons/icon72.png",
+        "96": "icons/icon96.png",
+        "144": "icons/icon144.png",
+        "196": "icons/icon192.png"
     },
     "permissions": ["activeTab", "scripting"],
     "content_scripts": [{
