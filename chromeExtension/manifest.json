@@ -16,7 +16,11 @@
     },
     "permissions": ["activeTab", "scripting"],
     "content_scripts": [{
-        "js": ["script.js"],
+        "js": [
+            "scripts/submissionPage.js",
+            "scripts/claimedPage.js",
+            "scripts/index.js"
+        ],
         "matches": ["https://grading.bootcampspot.com/*"]
     }]
 }
