@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "BCS Grader",
+    "description": "A tool for improving the experience of using the BCS Grader",
+    "version": "1.0",
+    "icons": {
+        "48": "favicon.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": {
+            "48": "favicon.svg"
+        }
+    },
+    "permissions": ["activeTab", "scripting"],
+    "content_scripts": [{
+        "js": ["script.js"],
+        "matches": ["https://grading.bootcampspot.com/*"]
+    }]
+}
