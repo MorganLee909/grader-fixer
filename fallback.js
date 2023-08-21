@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Fix BCS Grader
+// @name         Fix BCS Grader (fallback)
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Fixing things in BCS Grader that should have been fixed long ago
