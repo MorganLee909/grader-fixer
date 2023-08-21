@@ -141,14 +141,21 @@
             module = module.split(" ");
             module = module[1];
 
-            let grade = document.querySelector(".gradeInputBoxForCanvas").children[0].value;
+            let grade = "";
+            let gradeOptions = document.querySelectorAll(".ui.toggle.checkbox input");
+            if(gradeOptions[0].checked){
+                grade = "plagiarism";
+            }else if(gradeOptions[1].checked){
+                grade = "incomplete";
+            }else{
+                grade = document.querySelector(".gradeInputBoxForCanvas").children[0].value;
+            }
 
             let time = new Date();
+            time = time.toISOString();
 
-            let graded = "";
-            try{
-                graded = localStorage.getItem("graded");
-            }catch(e){}
+            let graded = localStorage.getItem("graded");
+            graded = graded ? graded : "";
             graded += `${url},${module},${grade},${time}\n`;
 
             localStorage.setItem("graded", graded);
@@ -165,7 +172,9 @@
         button.addEventListener("click", ()=>{
             let header = "urlId,module,grade,timestamp\n";
 
-            let file = new Blob([header, localStorage.getItem("graded")]);
+            let graded = localStorage.getItem("graded");
+            graded = graded ? graded : "";
+            let file = new Blob([header, graded]);
             let a = document.createElement("a");
             let url = URL.createObjectURL(file);
             a.href = url;
