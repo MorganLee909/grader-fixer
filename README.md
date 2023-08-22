@@ -6,12 +6,13 @@ Just a simple script to make the grader easier to use. These are some much neede
 ## FEATURES
 1. When the assignment has been graded previously, the grade is displayed in "Comments", next to the timestamp for the specific grader comment.
 2. All comments are split up by line instead of displayed in one massive block of text, making it easy to read both comments from previous graders and from the students.
-3. Rubric has been added to the "Rubric" section
-4. Displaying of assignments on the "Claimed by Me" page has been fixed.
+3. Rubric has been added to the "Rubric" section.
+4. Content on the assignment grading page now fills up most of the width of the window. This makes it easier to use the rubric. 
+5. Displaying of assignments on the "Claimed by Me" page has been fixed.
     1. Problem with "Active" assignments being spread across multiple pages is fixed.
     2. Pagination has been removed. Each category (Active, Past Due, Waiting for Review) is displayed in its own single scrollable list.
     3. Speed improved. No more loading of assignments when switching category, it is automatic.
-5. Every assignment graded is saved to localStorage when submited and can be downloaded as CSV with the button at top of the window.
+6. Every assignment graded is saved to localStorage when submited and can be downloaded as CSV with the button at top of the window.
 
 ## BUGS
 If you run into any problems or bugs, please submit an issue on GitHub. https://github.com/MorganLee909/grader-fixer/issues

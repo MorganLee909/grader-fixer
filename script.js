@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fix BCS Grader
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Fixing things in BCS Grader that should have been fixed long ago
 // @author       Lee Morgan
 // @match        https://grading.bootcampspot.com/*
