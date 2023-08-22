@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fix BCS Grader
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Fixing things in BCS Grader that should have been fixed long ago
 // @author       Lee Morgan
 // @match        https://grading.bootcampspot.com/*
@@ -82,9 +82,9 @@
             let module = main.querySelector("h2");
             let rubricElem = main.children[1].children[0].children[3];
             let container = document.querySelector(".ui.segment.active.tab");
-    
+
             module = Number(module.textContent.split(" ")[1]);
-    
+
             let frame = document.createElement("iframe");
             frame.classList.add("rubricFrame");
             frame.src = `https://leemorgan.io/2u/rubrics/${module}`;
@@ -95,7 +95,7 @@
         rewriteText: function(textElem, content){
             textElem.textContent = "";
             let splitContent = content.split("\n");
-    
+
             for(let j = 0; j < splitContent.length; j++){
                 let p = document.createElement("p");
                 p.textContent = splitContent[j];
@@ -107,14 +107,14 @@
             let button = document.querySelector(".ui.green.icon.positive.right.labeled.button");
             button.addEventListener("click", ()=>{
                 let info = document.querySelector(".divided.equal.width.row").children[1].children[0].children[1];
-    
+
                 let url = window.location.href.split("/");
                 url = url[url.length-1];
-    
+
                 let module = info.children[0].innerText;
                 module = module.split(" ");
                 module = module[1];
-    
+
                 let grade = "";
                 let gradeOptions = document.querySelectorAll(".ui.toggle.checkbox input");
                 if(gradeOptions[0].checked){
@@ -124,14 +124,14 @@
                 }else{
                     grade = document.querySelector(".gradeInputBoxForCanvas").children[0].value;
                 }
-    
+
                 let time = new Date();
                 time = time.toISOString();
-    
+
                 let graded = localStorage.getItem("graded");
                 graded = graded ? graded : "";
                 graded += `${url},${module},${grade},${time}\n`;
-    
+
                 localStorage.setItem("graded", graded);
             });
         }
@@ -155,33 +155,33 @@
                     uiGrid = document.querySelector(".ui.grid");
                     container = uiGrid.children[1];
                 }catch(e){}
-    
+
                 if(container !== null){
                     clearInterval(wait);
                     container.style.display = "none";
-    
+
                     //Create and modify new container
                     newContainer = container.cloneNode(true);
                     let menu = newContainer.querySelector(".ui.secondary.menu");
-    
+
                     for(let i = 0; i < menu.children.length; i++){
                         menu.children[i].addEventListener("click", ()=>{
                             for(let j = 0; j < menu.children.length; j++){
                                 menu.children[j].classList.remove("active");
                             }
-    
+
                             let data = [];
                             switch(i){
                                 case 0: data = this.ungraded; break;
                                 case 1: data = this.pastDue; break;
                                 case 2: data = this.waitingReview; break;
                             }
-    
+
                             menu.children[i].classList.add("active");
                             this.displayAssignments(data, newContainer);
                         });
                     }
-    
+
                     newContainer.style.display = "block";
                     uiGrid.appendChild(newContainer);
                     this.getClaimed(newContainer);
@@ -219,7 +219,7 @@
                             this.pastDue.push(response.data[i]);
                         }
                     }
-    
+
                     this.displayAssignments(this.ungraded, container);
                 })
                 .catch((err)=>{
@@ -237,7 +237,7 @@
                 let newCard = this.createAssCard(assignments[i]);
                 assCardContainer.appendChild(newCard);
             }
-    
+
             try{
                 document.querySelector(".ui.pagination.menu").style.display = "none";
             }catch(e){}
@@ -249,19 +249,19 @@
             let header = newCard.querySelector(".header");
             header.textContent = data.assignmentName;
             header.parentElement.href = `https://grading.bootcampspot.com/canvasSubmission/${data.id}`;
-    
+
             let descContainerLeft = newCard.querySelector(".description > .ui.grid").children[0];
             descContainerLeft.children[0].textContent = data.status;
             descContainerLeft.children[1].textContent = data.date;
             descContainerLeft.children[2].textContent = data.assignmentDueDate;
             descContainerLeft.children[3].textContent = data.program.name;
-    
+
             let descContainerRight = newCard.querySelector(".description > .ui.grid").children[1];
             descContainerRight.children[0].textContent = data.studentName;
             descContainerRight.children[1].textContent = data.course.name;
-    
+
             newCard.querySelector(".ui.grey.button").href = `https://grading.bootcampspot.com/canvasSubmission/${data.id}`;
-    
+
             return newCard;
         }
     }
@@ -292,8 +292,21 @@
                     margin: auto 0;
                     box-shadow: 0 0 5px black;
                 }
+                .column > .ui.container{
+                    width: 90%;
+                }
+                .ui.container.stackable.grid{
+                    width: 90% !important;
+                }
+                #root .ten.wide.column{
+                    width: 700px !important;
+                    padding-left: 0;
+                }
+                .divided.equal.width.row > column{
+                    padding-right: 0;
+                }
             `;
-    
+
             let styleElem = document.createElement("style");
             styleElem.textContent = style;
             document.body.appendChild(styleElem);
@@ -305,10 +318,10 @@
             button.id = "downloadGraded";
             let header = document.querySelector(".ui.top.fixed.menu").children[0];
             header.insertBefore(button, header.children[1]);
-    
+
             button.addEventListener("click", ()=>{
                 let header = "urlId,module,grade,timestamp\n";
-    
+
                 let graded = localStorage.getItem("graded");
                 graded = graded ? graded : "";
                 let file = new Blob([header, graded]);
@@ -347,4 +360,4 @@
     }
 
     start();
-});
+})();
