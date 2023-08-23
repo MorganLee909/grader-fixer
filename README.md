@@ -33,4 +33,4 @@ After installing the extension, open it and create a new script. Then just delet
 
 ## Examples
 ![Update comment view](./commentExample.png "Comments/Grades Updated View")
-![Rubric view](./rubricExmpl.png "Rubric")
+![Rubric view](./rubricExample.png "Rubric")
