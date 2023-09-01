@@ -24,11 +24,14 @@ Firefox: https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/
 
 Chrome: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo
 
-After installing the extension, open it and create a new script. Then just delete all of the boilerplate and copy/paste the entire script from this repository. Make sure that you leave the commented code at the top, as this will detect the webpage. After this, the updates should be applied once you refresh the page.
+After installing the extension, open it and create a new script. Then just delete all of the boilerplate and copy/paste the entire script (script.js or script.min.js for the minimized version) from this repository. Make sure that you leave the commented code at the top, as this will detect the webpage. After this, the updates should be applied once you refresh the page.
 
 ## NOTES
-1. This is still a work in progress, so there may be some issues depending on your environment. Also, more to come soon.
-2. If you run into an error that is making it unusable, you can use the Tampermonkey extension to simply turn the script off and go back to the default page.
+1. If you run into an error that is making it unusable, you can use the Tampermonkey extension to simply turn the script off and go back to the default page.
+
+
+## Updates
+20230901: Website was updated and caused more problems with the claimed/active queue for graders. On top of the assignments being spread out across multiple tabs as usual, I had assignments flash in and out. It would display some assignments, then quickly change, then maybe change again, making it completely unusable. Also, they changed the backend which made the script not work properly. This update addresses that, so it should be working as normal. There is also a minimized script now, it is only about half of the size.
 
 
 ## Examples
