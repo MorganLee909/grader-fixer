@@ -190,33 +190,51 @@
         },
 
         getClaimed: function(container){
-            fetch("https://grading.bootcampspot.com/api/centralgrading/v1/myClaimedSubmissions", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    offset: 0,
-                    resultsPerPage: 500,
-                    role: {
-                        id: 1,
-                        name: "Central Grader"
-                    }
-                })
-            })
-                .then(r=>r.json())
+            let fetches = [];
+            for(let i = 0; i < 2; i++){
+                let data = fetch("https://grading.bootcampspot.com/api/centralgrading/v1/myClaimedSubmissions", {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        offset: i * 10,
+                        resultsPerPage: 500,
+                        role: {
+                            id: 1,
+                            name: "Central Grader"
+                        }
+                    })
+                });
+
+                fetches.push(data);
+            }
+
+            Promise.all(fetches)
+                .then(r=>Promise.all(r.map(x=>x.json())))
                 .then((response)=>{
                     this.ungraded = [];
                     this.waitingReview = [];
                     this.pastDue = [];
-                    for(let i = 0; i < response.data.length; i++){
-                        let status = response.data[i].status;
+
+                    let assignments = [];
+                    for(let i = 0; i < response.length; i++){
+                        assignments = assignments.concat(response[i].data);
+                    }
+
+                    assignments = assignments.filter((value, index, self) =>
+                        index === self.findIndex((t) => (
+                            t.id === value.id
+                    )));
+
+                    for(let i = 0; i < assignments.length; i++){
+                        let status = assignments[i].status;
                         if(status === "In Progress"){
-                            this.ungraded.push(response.data[i]);
+                            this.ungraded.push(assignments[i]);
                         }else if(status === "Ready for Review" || status === "Flagged"){
-                            this.waitingReview.push(response.data[i]);
+                            this.waitingReview.push(assignments[i]);
                         }else{
-                            this.pastDue.push(response.data[i]);
+                            this.pastDue.push(assignments[i]);
                         }
                     }
 
