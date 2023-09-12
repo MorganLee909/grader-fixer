@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fix BCS Grader
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.2
 // @description  Fixing things in BCS Grader that should have been fixed long ago
 // @author       Lee Morgan
 // @match        https://grading.bootcampspot.com/*
@@ -191,7 +191,7 @@
 
         getClaimed: function(container){
             let fetches = [];
-            for(let i = 0; i < 2; i++){
+            for(let i = 0; i < 1; i++){
                 let data = fetch("https://grading.bootcampspot.com/api/centralgrading/v1/myClaimedSubmissions", {
                     method: "post",
                     headers: {
@@ -237,6 +237,13 @@
                             this.pastDue.push(assignments[i]);
                         }
                     }
+
+                    let menu = container.querySelector(".ui.secondary.menu");
+                    menu.children[0].textContent = `Active (${this.ungraded.length})`;
+                    menu.children[1].textContent = `Past Due (${this.pastDue.length})`;
+                    menu.children[2].textContent = `Waiting for review (${this.waitingReview.length})`;
+                    let totalAss = this.ungraded.length + this.pastDue.length + this.waitingReview.length;
+                    document.querySelector(".ui.header small em").textContent = `${totalAss} results`;
 
                     this.displayAssignments(this.ungraded, container);
                 })
