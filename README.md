@@ -1,39 +1,33 @@
 # Grader Fixer
 
 ## SUMMARY
-Just a simple script to make the grader easier to use. These are some much needed updates for the site that have not been implemented yet, so I just decided to do it myself.
-
-## FEATURES
-1. When the assignment has been graded previously, the grade is displayed in "Comments", next to the timestamp for the specific grader comment.
-2. All comments are split up by line instead of displayed in one massive block of text, making it easy to read both comments from previous graders and from the students.
-3. Rubric has been added to the "Rubric" section.
-4. Content on the assignment grading page now fills up most of the width of the window. This makes it easier to use the rubric. 
-5. Displaying of assignments on the "Claimed by Me" page has been fixed.
-    1. Problem with "Active" assignments being spread across multiple pages is fixed.
-    2. Pagination has been removed. Each category (Active, Past Due, Waiting for Review) is displayed in its own single scrollable list.
-    3. Speed improved. No more loading of assignments when switching category, it is automatic.
-6. Every assignment graded is saved to localStorage when submited and can be downloaded as CSV with the button at top of the window.
-
-## BUGS
-If you run into any problems or bugs, please submit an issue on GitHub. https://github.com/MorganLee909/grader-fixer/issues
+Several scripts to improve the usability of the grader platform. You can pick and choose which scripts you want to use.
 
 ## USAGE
-The usage of this script requires the Tampermonkey browser extension for Firefox or Chrome.
+The usage of these scripts requires the Tampermonkey browser extension for Firefox or Chrome.
 
 Firefox: https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/
 
 Chrome: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo
 
-After installing the extension, open it and create a new script. Then just delete all of the boilerplate and copy/paste the entire script (script.js or script.min.js for the minimized version) from this repository. Make sure that you leave the commented code at the top, as this will detect the webpage. After this, the updates should be applied once you refresh the page.
+After installing the extension, open it and create a new script. Then just delete all of the boilerplate and copy/paste the entire script that you want to use from this repository. Make sure that you leave the commented code at the top, as this will detect the webpage. After this, the updates should be applied once you refresh the page. All scripts are independent of each other, so you can pick and choose which ones you want to use.
 
-## NOTES
-1. If you run into an error that is making it unusable, you can use the Tampermonkey extension to simply turn the script off and go back to the default page.
+## SCRIPTS
+### assignmentPage.js
+1. Comments in "Related Submissions" are split into paragraphs (as originally written) for ease of reading.
+2. "Program" now shows the correct program instead of always showing "Full Stack Flex".
+2. Program (Full Stack Flex or Front End 16 Week) is displayed next to module name.
+3. Module name and program are color coded to quickly and automatically recognize which one it is.
+    1. Full stack flex is blue
+    2. Front End 16 Week is green
+4. When large images are uploaded by the student they are shrunk to fit their container rather than overflowing.
 
+## BUGS
+If you run into any problems or bugs, please submit an issue on GitHub. https://github.com/MorganLee909/grader-fixer/issues
 
 ## Updates
 20230901: Website was updated and caused more problems with the claimed/active queue for graders. On top of the assignments being spread out across multiple tabs as usual, I had assignments flash in and out. It would display some assignments, then quickly change, then maybe change again, making it completely unusable. Also, they changed the backend which made the script not work properly. This update addresses that, so it should be working as normal. There is also a minimized script now, it is only about half of the size.
 
 
 ## Examples
-![Update comment view](./commentExample.png "Comments/Grades Updated View")
 ![Rubric view](./rubricExample.png "Rubric")

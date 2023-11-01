@@ -1,4 +1,0 @@
-$ esbuild script.js --bundle --minify --outdir=dist
-Add header data for tampermonkey
-Manually compress CSS
-Rename file, move file, delete containing directory
