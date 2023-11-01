@@ -16,11 +16,15 @@ After installing the extension, open it and create a new script. Then just delet
 ### assignmentPage.js
 1. Comments in "Related Submissions" are split into paragraphs (as originally written) for ease of reading.
 2. "Program" now shows the correct program instead of always showing "Full Stack Flex".
-2. Program (Full Stack Flex or Front End 16 Week) is displayed next to module name.
-3. Module name and program are color coded to quickly and automatically recognize which one it is.
+3. Program (Full Stack Flex or Front End 16 Week) is displayed next to module name.
+4. Module name and program are color coded to quickly and automatically recognize which one it is.
     1. Full stack flex is blue
     2. Front End 16 Week is green
-4. When large images are uploaded by the student they are shrunk to fit their container rather than overflowing.
+5. When large images are uploaded by the student they are shrunk to fit their container rather than overflowing.
+
+### rubric.js
+1. Adds rubric to the "Rubric" tab. (Automatically determines full stack vs. front-end and module)
+2. Increases width of right-hand section of page to make more room for rubric.
 
 ## BUGS
 If you run into any problems or bugs, please submit an issue on GitHub. https://github.com/MorganLee909/grader-fixer/issues
