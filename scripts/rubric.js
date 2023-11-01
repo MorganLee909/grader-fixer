@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rubric
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      1
 // @description  Add rubric to the "Rubric" tab
 // @author       Lee Morgan
 // @match        https://grading.bootcampspot.com/*

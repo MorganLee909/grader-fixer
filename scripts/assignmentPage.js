@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Assignment page pleasantries
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      1
 // @description  Display comments in a more readable manner. Add notice of Course type.
 // @author       Lee Morgan
 // @match        https://grading.bootcampspot.com/*
